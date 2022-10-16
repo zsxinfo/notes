@@ -509,6 +509,285 @@ request.responseXML : Content-Type头部中指定为"text/xml"的数据，其实
 
 ## 第八章 充实文档的内容
 
+- 缩略语列表 函数
+- 文档来源链接 函数
+- 快捷键清单 函数
+
+### 8.1 不应该做什么
+
+### 8.2 把“不可见”变成“可见”
+
+### 8.5 显示“文献来源链接表”
+
+displayAbbreviation 缩略语
+
+displayCitation 文献来源
+
+<blockquote cite="http://www.w3.org">
+
+### 8.6 显示“快捷键清单”
+
+accesskey
+
+### 8.7 检索和添加信息
+
+记住原则：
+
+js脚本只应该用来充实文档内容，要避免使用DOM技术来创建核心内容。
+
+### 8.8 小结
+
+下一章：运用DOM处理颜色、字体等样式信息。
+
+## 第九章 CSS-DOM
+
+- style属性
+- 如何检索样式
+- 如何改变样式
+
+### 9.1 三个层次
+
+三位一体的网页：
+- 结构层 html
+- 表示层 CSS
+- 行为层 JS
+
+### 9.2 style属性
+
+style属性只返回内嵌样式
+
+
+### 9.3 何时改用DOM脚本设置样式
+
+CSS :hover 
+
+DOM :onmouseover
+
+### 9.4 className属性
+
+不改变style属性，只改变className属性
+
+更进一步的抽象：
+
+styleElementSiblings("h1", "intro");
+
+### 9.5 小结
+
+CSS永远也无法跟DOM竞争的应用：JS脚本能定时重复执行一组操作。通过不断改变样式，我们就能实现CSS根本不可能实现的效果。
+
+下一章：你将写一个能够随着时间的推移而不断刷新元素位置的函数。简单地说，你将用jS实现动画效果。
+
+## 第十章 用js实现动画效果
+
+### 10.1 动画基础知识
+
+position：
+- static 默认值：按标记先后顺序
+- reletive 类似static 但可以应用float
+- absolute 位置与标记无关，而是top left right bottom决定
+- fixed 
+
+setTimeout
+
+parseInt
+
+parseFloat
+
+### 10.2 实用的动画
+
+CSS: overflow
+
+- visible
+- hidden
+- scroll
+- auto
+
+使用hidden
+
+### 10.3 小结
+
+动画
+
+下一章：html5
+
+## 第十一章 HTML5
+
+### 11.1 html5简介
+
+- structure
+- presentation
+- behavior
+
+结构层新增标记元素：<section> <article> <header> <footer>
+
+交互及媒体元素：<canvas> <audio> <video>
+
+新JS API：Geolocation Storage Drap-and-Drop Socket 及 多线程
+
+### 11.2 来自朋友的忠告
+
+用 Modernizr
+
+### 11.3 几个例子
+
+#### 11.3.1 Canvas
+
+以前浏览器可做：
+- 显示静态图片
+- GIF实现动画
+- CSS+JS变化样式
+
+但是仅此而已。
+
+难上加难：与静态图片交互。
+
+HTML5的<canvas>使这一切成为历史。通过它可以动态创建和操作图形图像。
+
+canvas涉及的数字及定位的概念与
+- Adobe Illustrator
+- 等基于矢量的图形软件
+- 或者基于矢量的编程语言没有太大的差别。
+
+以前在浏览器中实现高级的图片交互，只能依靠flash或者silverlight插件，但是今天有了canvas就可以在浏览器窗口绘制任何对象、任何像素了。
+
+#### 11.3.2 音视频
+
+容器：
+- mp4: QuickTime MPEG4打包
+- m4v: MPEG4
+- avi: Audio Video Interleave 音视频交错
+- flv: Flash Video
+- mkv: ?
+
+编解码器：
+- H.264
+- Theora
+- VP8
+- H.265
+
+音频编解码器：
+- mp3: MPEG-1 Audio Layer 3
+- aac: Advanced Audio Coding
+- ogg: Ogg Vorbis
+
+H.264 编解码需要付费，但是传播不需要交钱
+
+推荐书：
+
+女博士 Silvia Pfeiffer
+
+《The Definitive Guide to HTML5 Video》 2011
+
+#### 11.3.3 表单
+
+### 11.4 HTML5还有其他特性吗？
+
+### 11.5 小结
+
+- canvas
+- audio video
+- 表单 forms
+
+## 第十二章 综合示例
+
+本章：从头开始做一个网站，然后用js来为这个网站增加交互功能。
+
+### 12.1 项目简介
+
+为一个乐队涉及一个网站。
+
+酷。交互。残疾友好，搜索引擎友好。
+
+文件夹
+- images
+- styles: CSS files
+- scripts: js files
+
+页面：
+- Home
+- About
+- Photos
+- Live
+- Contact
+
+### 12.5 JS
+
+### 12.6 小结
+
+希望本书能让你对js和DOM产生初恋一般的美好感觉。
+
+Web的无所不在是它的魅力。保证任何人都能无障碍地使用它 ，是一个最基本的原则。
+
+## 附录：JS库
+
+### A.1 选择合适的库
+
+- 它具备你需要的所有功能吗？功能太少或不符合需求，不用。
+- 它的功能是否比你想要的还多？太多了不好
+- 它是模块化的吗？减少体积。
+- 他的支持情况怎么样？bug有没有人修。
+- 它有文档吗？没有文档看不懂，没前途。
+- 它的许可合适吗？许可协议
+
+有代表性的库：
+- jQuery: 快速简洁，简化html文档搜索、事件处理、动画以及Ajax交互，快速web开发。强大的选择方法、连缀语法以及简化的Ajax和事件方法，使你的代码简洁且容易理解。
+- Prototype：旨在简化动态web应用开发的框架。
+- YUI：yahoo。简单DOM操作到高级效果，全功能的应用程序部件。
+- Dojo Toolkit: 节省时间，性能优异。
+- MooTools：小巧模块化面向对象的js框架。精巧、文档完备、前后一致的API，可以编写出强大、灵活而又能跨浏览器的代码。Moo.fx效果库令人叫绝。网页动画。
+
+内容分发网络：CDN：content Delevery Network
+
+### A.2 语法
+
+选择函数：$()函数
+
+jQuery each方法
+
+### A.3 选择元素
+
+通过CSS选择器选择：$('#elementid')
+
+表单：
+- :input
+- :text
+- :password
+- :radio
+- :checkbox
+- :submit
+- :image
+- :reset
+- :button
+
+### A.4 操作DOM元素
+
+操作DOM的能力可以体现一个库的水平
+
+### A.5 处理事件
+
+### A.6 Ajax
+
+Ajax应用爆发后，js库也流行起来。
+
+Prototype库（Ruby On Rails）就因为Ajax对象流行的。
+
+### A.7 动画和效果
+
+### A.8 小结
+
+介绍了一些库，不可能面面俱到。
+
+// 2022 10 16
+
+## 作者
+
+Jeremy Keith
+
+Jeffrey Sambells
+
+
+
+
 
 
 
