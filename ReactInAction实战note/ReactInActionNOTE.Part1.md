@@ -302,6 +302,395 @@ interoperability 协同工作的能力 互用性
 
 # Chapter 2. \<Hello World />: our first component
 
+- Think UI with components
+- components in React
+- How React render components
+- Different ways of creating components in React
+- Using JSX in React
+
+" show me the code "
+
+solidify 团结 凝固
+
+without syntactic sugar 语法糖
+
+obscure 难解的 遮掩 使得难以理解
+
+JSX - a lightweight markup language
+
+core aspects of most react apps:
+- components : lifecycle methods 
+- react libraries :  react-dom react-native
+- third-party libraries : ch4 ch10 ch11
+- running a react app : web mobile native
+
+## 2.1 components
+
+fundamental unit of a client-side app written in react.
+
+foray 突袭 突击
+
+```
+<Component display userID={12}>
+    <OtherComponent/>
+<Component>
+{"user": {name: "Mark"}}
+```
+
+lifecycle methods:
+- componentWillMount
+- componentDidMount
+- componentWillReceiveProps
+- shouldComponentUpdate
+- componentWillUpdate
+- componentDidUpdate
+- componentWillUnmount
+
+mockup 实物模型
+
+### 2.1.1 Understanding the app data
+
+what info the API will provide to ur app
+
+#### Web APIs
+
+application programming interface
+
+In web, API has become almost synonymous with a remote, web-based public API.
+
+An API is usually a way of exposing defined ways to interact with a program or platform, usually over the internet, and for people to use and consume. 
+
+examples:
+- Facebook
+- Stripe APIs
+
+RESTful JSON API
+
+a server will give u data in the JSON format.
+
+RESTful JSON APIs are a common style of remote API.
+
+### 2.1.2 Multiple components: Composition and parent-child relationship
+
+baggage 行李
+
+they only care about their parents and children.
+
+### 2.1.3 Establishing component relationship
+
+next: not using JSX syntactic helpers
+
+focus on "raw" react
+
+you will get a feel for the core mechanics of the tech befroe moving on to use such helpers.
+
+forgo 放弃
+
+## 2.2 Creating components in React
+
+CodeSandbox.io
+
+3 libs for ur first components:
+- react 
+- react-dom: render 
+- prop-types: dev lib that help u do some typechecking on data passed to ur components.
+
+constituent 选民 组成成分
+
+```
+// index.js
+const nodde = document.getElementById("root");
+// sotre a reference to the root element
+
+// index.html
+<div id="root"></div>
+// created a div with id "root"
+```
+
+### 2.2.1 Creating React elements
+
+next: use react-dom
+
+call react-dom's render method for react to create and manage ur component. You'll call this method with a component to render and comtainer (which will be the DOM element u stored in a var earllier.) 
+
+```
+ReactDOM.render(
+    ReactElemnt element,
+    DOMElement container,
+    [function callback]
+) -> ReactComponent
+```
+
+React element?
+
+a light, stateless, immutable primitive in React.
+
+轻量的无状态的不可变的原始部件
+
+- ReactComponentElement : reference either a func or a class corresponding to a react component.
+- ReactDOMElement : vDOM element
+
+Elements are descriptors 描述符 we use to tell react what we want to see on the screen and are a central concept in react.
+
+Most of ur components will be collections of react elements; they will create a "boundary" of sorts around a portion 部分 of ur UI so u can group func, markup and styles together.
+
+But what does it mean for a react element to be a virtual representation of a DOM element?
+
+This means that React elements are to React what DOM elements are to DOM-- the basic primitives that compose a UI. 
+
+When u're creatin plain old HTML markup, u use a variety of elemnt types(div, span, section, p, img, and so on) to contain and structure information. In React, u can use React elemnts-- which tell React about either React componetns or regular DOM elements u want rendered.
+
+Another way to think of react elements is a set of basic instructions for react to use, like a blueprint for a DOM element. React elements are what react-dom will take and use to update the DOM.
+
+reconcile 使一致 使和谐
+
+
+react elements -> react -> vDOM -> react-dom -> actual DOM
+
+```
+React.createElement {
+    String/ReactClass type,
+    [object props],
+    [children...]
+} -> React Element
+```
+
+props 小道具
+
+look closely at each of these basic instructions:
+- type : HTML tag name "div" "span" "a", or a react class
+- props: properties 
+- children... :
+
+Listing 2.3
+
+### 2.2.2 Rendering ur first component
+
+verbose 冗长的
+
+list out a few of the characteristics of a react element.
+
+myVersion:
+- forms virtualDOM and react-dom syns it to real DOM
+- can be a html elment or a class or a func
+- nestable
+
+bookVersion:
+12345 for review
+
+### 2.2.3 Creating React components
+
+But u'd still be missing the *persistent state* 固执的 持续状态 provided by React, lifecycle methods that would give u predictable ways to work with a component, and, for that matter, any sort of logical grouping together that a component could give u. U definitely want to find a way to group React elements together.
+
+bundle up 缠束 环束 穿暖和点
+
+two primary types of components:
+- *stateless functional components* :later
+- *stateful* React components created with js classes :now
+
+From now on, when I refer to a React component, I'm referring to a component that's created from either a class or a function.
+
+### 2.2.4 Creating React classes
+
+```
+class MyReactClassComponent extends Component {
+    render() {}
+}
+```
+
+define at least a render method that will return a single react element or an array of react elements.
+
+old way: *createClass* method. This has since changed with the advent of classes in JS and now discouraged.(ES2015), although u can still use the *create-react-class* module, available on npm.
+
+### 2.2.5 The render method
+
+needs to return exactly one React element.
+
+Howerver, unlike React elemnts, the render methods have access to embedded data (persisted internal component state) as well as component methods and additonal methods inherited from the *React.component* abstract base class.
+
+The persistent state is available to the entire component because react creates a "backing instance" for this type of component. That's also why u'll hear these sorts of components referred to as *stateful* components.
+
+React will create and keep track of a special data object for an instance of a React class that stays around over time and can be updated through special react functions.
+
+backing instance 支持实例？
+
+how you've created more nested react elements and passed in your custom data using *this.props*.
+
+### 2.2.6 Property validation via PropTypes
+
+React:PropTypes : after v15.5 it's not included in react core library
+
+Listing 2.4
+```
+import React, { Component } from "react";
+import { render } form "react-dom";
+import PropTypes from "prop-types";
+
+const node = document.getElementById('root');
+class Post extends Component {
+    render() {
+        return React.createElement(
+            'div',
+            {
+                className: 'post'
+            },
+            React.createElelment(
+                'h2',
+                {
+                    className: 'postAuthor',
+                    id: this.props.id
+                },
+                this.props.user,
+                React.createElement(
+                    'span',
+                    {
+                        className: 'psotBody'
+                    },
+                    this.props.content
+                )
+            )
+        );
+    }
+}
+
+Post.propTypes = {
+    user: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired
+};
+
+const App = React.createElement (Post, {
+    id: 1,
+    content: ' said: This is a post!',
+    user: 'mark'
+});
+
+render(App, node);
+...
+```
+
+Listing 2.5 nested components
+
+further more when u work with routing and higher-order components.
+
+next: how to use embedded state that comes with react classes to create dynamic components
+
+#### Reverse engineering a component tree
+
+## 2.3 The life and times of a component
+
+It(what? rendering in react?) also creates a "synthetic" 人造的 event system so that u can still react to events from the browser (such as clicks, scrolls, and other user-caused events)
+
+react element & react class -> components -> vDOM -> actual DOM
+
+React classes can have some special methods that will be called in a certain order as React manages the vDOM.render, which you've used to return React elements, is just one of those methods.
+
+### 2.3.1 A React state of mind
+
+Along with custom methods and lifecycle methods, React classes also gives you state(data) that can persist with the component. This comes from the backing instance.
+
+*state* is a big topic. 
+
+What 's state?
+
+It is information about sth at a given time.
+
+two types of state:
+- *mutable*
+- *immutable*
+
+js class coponents may have both, whereas function components only have access to imuutable state.
+
+this.state
+
+this.props (immutable)
+
+How to use *state* and *props* in React?
+
+ans: how to use data passed to or used in a function. That includes calculations, display, parsing, business logic...
+
+props and state are the primary wawys that u can utilize dynamic or static data in ur UI.
+
+If u use react for data visualization, you might use props and state as inputs for visualization libs like D3.js. 
+
+funnel 漏斗
+
+Mutable vs. immutable:
+T F F T T/F
+
+### 2.3.2 Setting initial state
+
+mutable : often comes from user input: text files, toggled options...
+
+Listing 2.6 setting initial state
+
+``` 
+setState(
+    function(prevState, props) -> nextState,
+    callback
+) -> void
+```
+
+U can set up event handlers that can  respond to events from the browser, as u normally would in js. One difference is that react event handlers are set up on react elements or components themselves (as opposed to using addEventlistenner).
+
+encompass 包括
+
+U need to bind methods to the instance of ur component.
+
+Listing 2.8 Using functions as props
+
+## 2.4 Meet JSX
+
+"What we hope ever to do with ease, we must first learn to do with diligence."
+
+-- Samuel Johnson
+
+### 2.4.1 Creating components using JSX
+
+JSX: the better way.
+
+JSX: XML-like syntax extension to ECMAScript without any defined semantics.
+
+JSX helps by allowing u to write XML-style code in place of 代替 using React.createClass. In other words, it lets u write code that looks like HTML but isn't. A JSX preprocessor program like Babel -- a transpiler that turns ur js code into code that's compatible with older browsers -- will go through and convert all ur jsx code to regular js like we've written so far. One implication is that running untransformed jsx code natively in the browser won't work -- u will get all sorts of syntax erros when ur js is parsed.
+
+writing XML-style, HTML-like code in ur js might set ur warning instincts off, but there are plenty of good reasons to use jsx, and i will cover them.
+
+Normally, u use a build tool like Webpack to transpile ur js, but u can slso import Babel and have it work without a build step. That is much slower, though, and should never be done in production.
+
+babeljs.io
+
+Listing 2.11 Rewriting components using JSX
+
+### 2.4.2 Benefits of JSX and diffs from HTML
+
+skeptical 怀疑论者
+
+Benefits:
+- similarity to HTML and simpler syntax -- improves readability
+- declarative and encapsulated -- reason easily
+
+diffs from HTML:
+- tags: by convention capitalized vs. lowercase
+- attribute expressions: js expression {} vs. ""
+- boolean attributes: omit 省略 the value of an attribute causes jSX to treat it as true. (attribute = {false})
+- nested expressions : (\<p> {this.props.conten} \</p>)
+
+## 2.5 SUMMARY
+
+review some key points:
+- 2 main type of elements to create components: react elements and react classes.
+- state vs. props
+- react classes have special methods called lifecycle methods that will be called by react in a particular order during the rednering and update process. This makes ur components more predictalbe to work with and allows u to easily hook into the component update process.
+- can have custom methods
+- React components communicate via props and have child-parent relationships. Parent components can pass data to children, but children can't modify parents. They can pass data back to parents via callbacks, but don't have direct access to parents.
+- JSX let u write components in a much easier and more familiar way. 
+
+delve 钻研
+
+next: explore how to work with more compllicated data, learn about different types of components, and delve further into state as we expand ur react horizons.
+
+// Part.1 ends.
+// 20221019
 
 
 
