@@ -18,13 +18,13 @@ ch2:
 - whirlwind tour through React's APIs 旋风
 - build a simple comment-box component to get your hands dirty with React.
 
-## Chapter 1. Meet React
+# Chapter 1. Meet React
 
 skeptical: 怀疑的
 
 React is popular for good reason: it has a lot to offer and can reinvigorate 使再振作，再复兴(UI), renew(UI), or even transform how you think about and build user interfaces.
 
-### 1.1 MEET REACT
+## 1.1 MEET REACT
 
 helps you build UI in
 - declarative way
@@ -56,7 +56,7 @@ an overview of the major ingredients 组成部分 that go into React application
 
 
 
-#### 1.1.1 Who this book is for
+### 1.1.1 Who this book is for
 
 anyone interested in building UI.
 
