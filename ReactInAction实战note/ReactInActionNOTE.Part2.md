@@ -287,32 +287,237 @@ key features of React, once you know them you will be better equipped to start b
 
 ### 4.2.1 Introducing lifecycle method
 
+Definition
+
+Lifecycle methods are special methods attached to class-based React components that will be executed at specific points in a component's lifecycle. 
+
+A lifecycle is a way of thinking about a component. 
+
+A component with a lifecycle has a metaphorical "life" -- it has at least a beginning, middle, and end.
+
+Main part of a life are:
+- mounting 安装
+- updating
+- unmounting
+
+hindrance 起妨碍作用的事物或人
+
+### 4.2.2 Types of lifecycle methods
+
+two main group:
+- Will methods -- called right before sth happens
+- Did methods -- called right after sth happens
+
+four main parts of their lifecycle:
+- Initialization
+- Mounting -- being inserted to the DOM
+- Updating 
+- Unmounting -- being removed from the DOM
+
+### 4.2.3 Initial and "will" methods
+
+- defaultProps -- A static property that provides the default props for a component. Sets on *this.props* if that prop is not set by  the parent componnet, is accessed before any componnets are mounted, and can't rely on *this.props*. or *this.state.*. beccause defaultProps is a static property, it's accessed from the class, not instance.
+
+- state(initial) -- The value of this property in the constructor will be the initial value set for the state of ur component. That's especially helpful when you need to provide placeholder content, set default values, or the like. It's similar to default props with the exception that the data is expected to be mutated and only available on components that inherit from React.Component.
+
+### 4.2.4 Mounting components
+
+A common mistake people make when learning react is putting things in render() that shouldn't be. You can't know exactly when React will call render() because it batches updates for performance reasons.
+
+componentWillMount : the only chance to change state before mounted
+
+componentDidMount : good place to do like update your component state with data coming back form a network request. Also good place to work wtih third-party libraries that depend on DOM, like jQuery or others.
+
+If u execute handlers or other functions in other methods (like render()) , you will end up with unpredictable and unexpected results due to how React works. Render methods need to be *pure*(consistent based on a given input) and are usually called many times over the lifetime of a component.
+
+### 4.2.5 Updating methods
+
+- shouldComponentUpdate()
+- componentWillUpdate()
+- componentDidUpdate()
+
+### 4.2.6 Unmounting methods
+
+If your app is writen all with React a router (ch8, ch9) will remove components as you move between different pages. 
+
+componentWillUnmount : cleanup
+
+There's not componentDidUnmount
+
+### 4.2.7 Catching errors
+
+componentDidCatch()
+
+try...catch
+
+Table 4.1 summary of the methods covered so far.
+
+## 4.3 Starting to create letters-social
+
+use Webpack build process included with the repo, for reasons:
+
+- able to write js in many files that are output in one or a small handful of files that have automatically resolved dependencies and import order.
+- able to handle and process different types of files
+- to utilize other build tools like Babel so you can write modern js that will run on older browsers
+- to optimize js by removing dead code and minifying it
+
+Webpack is an incredibly powerful tool used by many teams and companies. As stated earlier in the chapter, I won't cover how to use it.
+
+``` 
+import React, { Component } from 'react';
+import { Render } from 'react-dom';
+
+import App from './app';
+
+import './shared/crash';
+import './shared/service-worker';
+import './shared/vendor';
+import './styles/styles.scss';
+
+render(<App />, document.getElementById('app'));
+```
+
+src/app.js : create the main App component
+
+sketch out 素描
+
+skeleton 骨架
+
+flesh out 充实 具体化
+
+keep adding functionality to the app as u explore different topics in React like testing, routing, and application architecture (using Redux).
+
+Listing 4.8 Creating the App component (src/app.js)
+
+Running "npm run dev" will do a few things for you:
+
+- Start up the Webpack build process and development server
+- Start the JSON-server API so you can respond to network requests
+- Create a development server (useful for server-side rendering in ch12)
+- Hot-reload your app when changes occur (so you don't have to refresh the app every time you save a file)
+- Notify you of build errors (these should show up in the command line and the browser if and when they occur)
+
+running app at http://localhost:3000
+
+API server runing at http://localhost:3500
 
 
+YOU need to fetch data from the API and then update component state with that data.
 
+You'll also add an error boundary sothat if your component encounters an error you can show an error message instead of the entire app unmounting.
 
+how to add the class methods to the App component
 
+```
+//...
+    constructor(props) {
+        //...
+        this.getPosts = this.getPosts.bind(this);
+    }
+    componentDidMount() {
+        this.getPosts();
+    }
+    componentDidCatch(err, info) {
+        console.error(err);
+        console.error(info);
+        this.setState( () => ( {
+            error: err;
+        }));
+    }
+    getPosts() {
+        API.fetchPosts(this.state.endpoint).then
+        ( res => {
+            return res
+                .json()
+                .then ( post => {
+                    const links = parseLinkHeader(res.headers.get('link'));
+                    this.setState( () => ( {
+                        posts: orderBy(this.state.posts.concat(posts), 
+                        'date', 'desc'),
+                        endpoint: links.next.url
+                    }));
+                })
+                .catch(err => {
+                    this.setState(() => ({error: err}));
+                });
+        })
+    }
+    render() {
+        //...
+        <button className="block" onClick = {this.getPosts}>
+            load more posts
+        </button>   
+        //...
+    }
+```
 
+2 set up an error boundary for the app so you can handle errors
 
+3 Fetch post using the included API module
 
+4 The API module uses the Fetch API, so you need to unwrap 打开、展开 the JSON response
 
+5 The letters-social API returns pagination 分页information in headers, so you can use the parse-link-header to pull the URL for the next page of posts out.
 
+6 add new posts to state and ensure they're sorted correctly.
 
+7 update the endpoint state
 
+8 if there's an error , update component state
 
+9 Now that you have it definedd, assign the getPosts method to the load more event handler.
 
+next : post components
 
+Listing 4.10 Creating the Post Component
 
+next : iterate over the posts so they get displayed
 
+Remenber that the way to display a dynamic list of components is to construct an array (either through Array.map or another mehtod) and use that in a JSX expression.
 
+how to update the *render* method of the App component to iterate over posts.
 
+Listing 4.11 Iterating over Post components (src/app.js)
 
+```
+<div>
+    {this.state.posts.length && (
+        <div className="posts">
+            { this.state.posts.map(
+                ( {id} ) => (
+                    <Post id={id} key={id} user=(this.props.user) />
+                )
+            )}
+        </div>
+    )}
+    <button>
+</div>
+```
 
+next chapter: add post; add location to post
 
+explore using refs -- a way to access underlying DOM elments from your React components
 
+## 4.4 Summary
 
+what we learned in this chapter:
+- React components inherit from React.Component
+- lifecycle methods : write only when you need them
+- handling errors that occur in *constructor*, *render*, or lifecycleMethods::: use *componentDidCatch*.
+- start building letter-social
 
+next: create posts dynamically and even add locations to posts using Mapbox
 
+// 2022 10 21
+
+# ch5: Working with forms in React
+
+cover:
+- using forms in React
+- controlled and uncontrolled form components in React
+- Validating and sanitizing data in React
+
+## 5.1 Creating post in letter-social
 
 
 
